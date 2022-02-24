@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mission7.Models;
+using Mission7.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,12 +28,20 @@ namespace Mission7.Controllers
         public IActionResult Index(int pageNum = 1)
         {
             int pgSz = 10;
-
-            var context = repo.Books
+            var cxt = new BooksViewModel
+            {
+                Books = repo.Books
                 .OrderBy(b => b.Title)
                 .Skip((pageNum - 1) * pgSz)
-                .Take(pgSz);
-            return View(context);
+                .Take(pgSz),
+                PageInfo = new PageInfo
+                {
+                    TtlNumBooks = repo.Books.Count(),
+                    BooksPerPg = pgSz,
+                    CurrentPg = pageNum
+                }
+            };
+            return View(cxt);
         }
     }
 }

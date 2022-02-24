@@ -1,14 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Library 2.0";
 }
-@model IQueryable<Book>
+@model BooksViewModel
 <div>
     <h1 class="display-4">Here Are Books</h1>
-    @foreach (Book b in Model)
+    @foreach (Book b in Model.Books)
             {
-                <h3>@b.Title</h3>
+                <h3 class="font-italic">@b.Title</h3>
                 <ul>
-                    <li>Author: @b.Author</li>
+                    <li class="font-weight-bold">Author: @b.Author</li>
                     <li>Publisher: @b.Publisher</li>
                     <li>ISBN: @b.Isbn</li>
                     <li>Classification: @b.Classification</li>
@@ -18,7 +18,4 @@
                 </ul>
             }
 </div>
-<div>
-    <a asp-action="Index" asp-route-pageNum="1">1</a>
-    <a asp-action="Index" asp-route-pageNum="2">2</a>
-</div>
+<div pg-mdl="@Model.PageInfo" page-action="Index"></div>
