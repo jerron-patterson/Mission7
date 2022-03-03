@@ -23,7 +23,7 @@ namespace Mission7.Pages
             ReturnUrl = returnUrl ?? "/";
             cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
-        public IActionResult onPost(int bookId, string returnUrl)
+        public IActionResult OnPost(int bookId, string returnUrl)
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookId);
             cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
