@@ -25,18 +25,20 @@ namespace Mission7.Controllers
         {
             repo = temp;
         }
-        public IActionResult Index(int pageNum = 1)
+        public IActionResult Index(string category, int pageNum = 1)
         {
             int pgSz = 10;
             var cxt = new BooksViewModel
             {
                 Books = repo.Books
+                .Where(b => b.Category == category || category == null)
                 .OrderBy(b => b.Title)
                 .Skip((pageNum - 1) * pgSz)
                 .Take(pgSz),
                 PageInfo = new PageInfo
                 {
-                    TtlNumBooks = repo.Books.Count(),
+                    TtlNumBooks = (category == null ? repo.Books.Count() : 
+                    repo.Books.Where(x => x.Category == category).Count()),
                     BooksPerPg = pgSz,
                     CurrentPg = pageNum
                 }

@@ -24,6 +24,10 @@ namespace Mission7.Infrastructure
         public ViewContext vc { get; set; }
         public PageInfo PgMdl { get; set; }
         public string PageAction { get; set; }
+        public string PageClass { get; set; }
+        public bool PageClassesEnables { get; set; }
+        public string PageClassNormal { get; set; }
+        public string PageClassSelected { get; set; }
         public override void Process (TagHelperContext THC, TagHelperOutput THO)
         {
             IUrlHelper uh = uhf.GetUrlHelper(vc);
@@ -32,6 +36,12 @@ namespace Mission7.Infrastructure
             {
                 TagBuilder tb = new TagBuilder("a");
                 tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = counter });
+                if(PageClassesEnables)
+                {
+                    tb.AddCssClass(PageClass);
+                    tb.AddCssClass(counter == PgMdl.CurrentPg ? PageClassSelected : PageClassNormal);
+                }
+                tb.AddCssClass(PageClass);
                 tb.InnerHtml.Append(counter.ToString()+ " ");
                 final.InnerHtml.AppendHtml(tb);
             }
