@@ -1,24 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Library 2.0";
 }
-@model IQueryable<Book>
+@model BooksViewModel
 <div>
     <h1 class="display-4">Here Are Books</h1>
-    @foreach (Book b in Model)
+    @foreach (Book b in Model.Books)
             {
-                <h3>@b.Title</h3>
-                <ul>
-                    <li>Author: @b.Author</li>
-                    <li>Publisher: @b.Publisher</li>
-                    <li>ISBN: @b.Isbn</li>
-                    <li>Classification: @b.Classification</li>
-                    <li>Category: @b.Category</li>
-                    <li>Page Count: @b.PageCount</li>
-                    <li>Price: $@b.Price</li>
-                </ul>
+                <partial name="BookSummary" model="b" />
             }
 </div>
-<div>
-    <a asp-action="Index" asp-route-pageNum="1">1</a>
-    <a asp-action="Index" asp-route-pageNum="2">2</a>
-</div>
+<div pg-mdl="@Model.PageInfo" page-action="Index" page-class="btn"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
+     page-classes-enables="true" class="btn-group pull-right m-1"></div>

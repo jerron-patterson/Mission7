@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,11 @@ namespace Mission7
                 options.UseSqlite(Configuration["ConnectionStrings:M7Connection"]);
             });
             services.AddScoped<IBookStoreRepository, EFBookStoreRepository>();
+            services.AddRazorPages();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddScoped<Cart>(x => SessionCart.GetCart(x));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +54,7 @@ namespace Mission7
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,8 +62,19 @@ namespace Mission7
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "PageAndCat",
+                    pattern: "{category}/{pageNum}",
+                    defaults: new { Controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute(
+                    name: "Paging",
+                    pattern: "{pageNum}",
+                    defaults: new { Controller = "Home", action = "Index", pageNum = 1 });
+                endpoints.MapControllerRoute(
+                    name: "Category",
+                    pattern: "{category}",
+                    defaults: new { Controller = "Home", action = "Index", pageNum = 1 });
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }
