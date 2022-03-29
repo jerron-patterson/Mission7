@@ -28,6 +28,8 @@ namespace Mission7.Models
         public string Zip { get; set; }
         [Required(ErrorMessage = "Please enter country name:")]
         public string Country { get; set; }
+        [BindNever]
+        public bool PurchaseShipped { get; set; }
         
     }
 }

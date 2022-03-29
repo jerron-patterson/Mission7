@@ -6,7 +6,7 @@ namespace Mission7.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            /*migrationBuilder.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -24,7 +24,7 @@ namespace Mission7.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.BookId);
-                });*/
+                });
 
             migrationBuilder.CreateTable(
                 name: "Purchases",
@@ -39,7 +39,8 @@ namespace Mission7.Migrations
                     City = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
                     Zip = table.Column<string>(nullable: false),
-                    Country = table.Column<string>(nullable: false)
+                    Country = table.Column<string>(nullable: false),
+                    PurchaseShipped = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
